@@ -23,14 +23,16 @@ public class JoinAnimation2 : MonoBehaviour
     {
         if (other.gameObject.name == "Point" && Input.GetKeyDown(KeyCode.R))
         {
+            this.GetComponent<Rigidbody>().isKinematic = true;
             transform.rotation = doorTarget.rotation;
             doorAnimator.SetTrigger("door");//запуск анимации двери
             anim.SetTrigger("door");//запуск анимации персонажа
             Destroy(doorTarget.gameObject);
         }
 
-        if (other.gameObject.name == "Point1" && Input.GetKeyDown(KeyCode.R))
+        if (other.gameObject.name == "Point (1)" && Input.GetKeyDown(KeyCode.R))
         {
+            this.GetComponent<Rigidbody>().isKinematic = true;
             transform.rotation = cabinetTarget.rotation;
             if (!isOpened)
             {
@@ -48,5 +50,10 @@ public class JoinAnimation2 : MonoBehaviour
             }
 
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        this.GetComponent<Rigidbody>().isKinematic = false;
     }
 }
