@@ -5,33 +5,30 @@ using UnityEngine.UI;
 
 public class Messenger : MonoBehaviour
 {
-    private Text message; // ссылка на текст
-    private static Coroutine RunMessage; // ссылка на запущенную корутину
+    [SerializeField] private Text message; // СЃСЃС‹Р»РєР° РЅР° С‚РµРєСЃС‚
+    private static Coroutine RunMessage; // СЃСЃС‹Р»РєР° РЅР° Р·Р°РїСѓС‰РµРЅРЅСѓСЋ РєРѕСЂСѓС‚РёРЅСѓ
     public GameObject panel;
 
     private void Start()
     {
-        // берем компонент текста, т.к. текст и скрипт находятся на одном объекте
-
-        message = GetComponent<Text>();
-        WriteMessage("Найдите ящик"); // напишите сюда первое сообщение для пользователя
+        WriteMessage("РќР°Р№РґРёС‚Рµ СЏС‰РёРє"); // РЅР°РїРёС€РёС‚Рµ СЃСЋРґР° РїРµСЂРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
     }
 
-    public void WriteMessage(string text) // метод для запуска корутины с выводом сообщения
+    public void WriteMessage(string text) // РјРµС‚РѕРґ РґР»СЏ Р·Р°РїСѓСЃРєР° РєРѕСЂСѓС‚РёРЅС‹ СЃ РІС‹РІРѕРґРѕРј СЃРѕРѕР±С‰РµРЅРёСЏ
     {
-        // проверка и остановка корутины, если она уже была запущена
+        // РїСЂРѕРІРµСЂРєР° Рё РѕСЃС‚Р°РЅРѕРІРєР° РєРѕСЂСѓС‚РёРЅС‹, РµСЃР»Рё РѕРЅР° СѓР¶Рµ Р±С‹Р»Р° Р·Р°РїСѓС‰РµРЅР°
         if (RunMessage != null) StopCoroutine(RunMessage);
-        this.message.text = ""; // очистка строки
+        this.message.text = ""; // РѕС‡РёСЃС‚РєР° СЃС‚СЂРѕРєРё
         panel.SetActive(true);
-                                // запуск корутины с выводом нового сообщения
+                                // Р·Р°РїСѓСЃРє РєРѕСЂСѓС‚РёРЅС‹ СЃ РІС‹РІРѕРґРѕРј РЅРѕРІРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
         RunMessage = StartCoroutine(Message(text));
     }
 
-    private IEnumerator Message(string message) // корутина для вывода сообщений
+    private IEnumerator Message(string message) // РєРѕСЂСѓС‚РёРЅР° РґР»СЏ РІС‹РІРѕРґР° СЃРѕРѕР±С‰РµРЅРёР№
     {
-        this.message.text = message; // записываем сообщение
-        yield return new WaitForSeconds(4f); // ждем 4 секунды
-        this.message.text = ""; // очищаем строку
+        this.message.text = message; // Р·Р°РїРёСЃС‹РІР°РµРј СЃРѕРѕР±С‰РµРЅРёРµ
+        yield return new WaitForSeconds(4f); // Р¶РґРµРј 4 СЃРµРєСѓРЅРґС‹
+        this.message.text = ""; // РѕС‡РёС‰Р°РµРј СЃС‚СЂРѕРєСѓ
         panel.SetActive(false);
     }
 

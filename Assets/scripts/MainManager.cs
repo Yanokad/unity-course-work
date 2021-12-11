@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainManager : MonoBehaviour
+public static class MainManager 
 {
     private static Messenger messenger;
     public static SceneChanger sceneChanger;
@@ -12,9 +12,9 @@ public class MainManager : MonoBehaviour
     {
         get
         {
-            if (messenger == null) // инициализация по запросу
+            if (messenger == null) // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРѕ Р·Р°РїСЂРѕСЃСѓ
             {
-                messenger = FindObjectOfType<Messenger>();
+                messenger = GameObject.FindObjectOfType<Messenger>();
             }
             return messenger;
         }
@@ -22,11 +22,6 @@ public class MainManager : MonoBehaviour
         {
             messenger = value;
         }
-    }
-    private void OnEnable()
-    {
-        DontDestroyOnLoad(gameObject);
-        sceneChanger = GetComponent<SceneChanger>();
     }
 
 
@@ -36,7 +31,7 @@ public class MainManager : MonoBehaviour
         {
             if (inventory == null)
             {
-                inventory = FindObjectOfType<InventoryManager>();
+                inventory = GameObject.FindObjectOfType<InventoryManager>();
             }
             return inventory;
         }

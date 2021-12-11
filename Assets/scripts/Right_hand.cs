@@ -16,7 +16,6 @@ public class Right_hand : MonoBehaviour
     private IKAnimation playerIK; // ссылка на экземпляр скрипта IKAnimation
     private bot bot;
 
-    private static MainManager manager;
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +102,7 @@ public class Right_hand : MonoBehaviour
     public void TakeItemInHand(Transform item) // добавим метод для переноса объекта
     {
         inHand = item; // запоминаем объект для взаимодействия
-        
+
         inHand.parent = transform; // делаем руку, родителем объекта
         inHand.localPosition = new Vector3(-0.1104f, 0.1989f, -0.1682f);
         inHand.localEulerAngles = new Vector3(-30.594f, -3.16f, 67.719f);
@@ -125,10 +124,10 @@ public class Right_hand : MonoBehaviour
         if (flag)
         {
             playerIK.StopInteraction(); // прекращение IK-анимации
-            
-            MainManager.Inventory.AddItem(interactObject.gameObject);
+
+            MainManager.Inventory.AddItem(item);
             MainManager.Messenger.WriteMessage("Вы подобрали " + item.name);
-            Destroy(interactObject.gameObject); // удалить объект
+            Destroy(item); // удалить объект
         }
         else
         {
@@ -136,5 +135,5 @@ public class Right_hand : MonoBehaviour
         }
     }
 
-    
+
 }
