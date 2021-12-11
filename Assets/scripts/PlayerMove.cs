@@ -64,11 +64,11 @@ public class PlayerMove : MonoBehaviour
         {
             anim.SetTrigger("take");
         }
-
+        /*
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            anim.SetTrigger("take");
-        }
+            anim.SetTrigger("door");
+        }*/
 
     }
     private void Animate(float input)
