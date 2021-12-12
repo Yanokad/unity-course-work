@@ -11,7 +11,7 @@ public class Messenger : MonoBehaviour
 
     private void Start()
     {
-        WriteMessage("Найдите ящик"); // напишите сюда первое сообщение для пользователя
+        MainManager.Messenger.WriteMessage("Найдите еду");
     }
 
     public void WriteMessage(string text) // метод для запуска корутины с выводом сообщения

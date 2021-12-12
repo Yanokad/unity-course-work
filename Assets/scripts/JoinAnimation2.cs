@@ -4,56 +4,77 @@ using UnityEngine;
 
 public class JoinAnimation2 : MonoBehaviour
 {
-    public Animator doorAnimator;//ссылка на аниматор двери  
-    public Animator cabinetAnimator1;//ссылка на аниматор двери  
-    public Animator cabinetAnimator2;//ссылка на аниматор двери  
-    public Transform doorTarget;//ссылка на точку для начала анимации
-    public Transform cabinetTarget;//ссылка на точку для начала анимации
-    private Animator anim;//аниматор персонажа
-    private bool isOpened;
+    public Animator doorAnimator; //ссылка на аниматор двери  
+    public Animator cabinetAnimator1; //ссылка на аниматор правой дверцы
+    public Animator cabinetAnimator2; //ссылка на аниматор леой дверцы  
+    public Transform doorTarget; //ссылка на точку для начала анимации двери
+    public Transform cabinetTarget; //ссылка на точку для начала анимации шкафа
+    private Animator anim; //аниматор персонажа
+    private bool isOpened; //переменная для проверки открытия шкафа
+    private static bool canOpen; //переменная для проверки открытия шкафа
 
-    // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();//инициализируем аниматор
+        anim = GetComponent<Animator>();//инициализация аниматора
         isOpened = false;
+        canOpen = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((other.gameObject.name == "Point" && canOpen) || (other.gameObject.name == "Point (1)" && !isOpened))
+            MainManager.Messenger.WriteMessage("Нажмите R, чтобы открыть");
+        else if (other.gameObject.name == "Point" && !canOpen)
+        {
+            MainManager.Messenger.WriteMessage("Закрыто");
+        }
+        else if (other.gameObject.name == "Point (1)" && isOpened)
+            MainManager.Messenger.WriteMessage("Нажмите R, чтобы закрыть");
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.name == "Point" && Input.GetKeyDown(KeyCode.R))
+        if (other.gameObject.name == "Point" && Input.GetKeyDown(KeyCode.R) && canOpen)
         {
-            this.GetComponent<Rigidbody>().isKinematic = true;
-            transform.rotation = doorTarget.rotation;
-            doorAnimator.SetTrigger("door");//запуск анимации двери
-            anim.SetTrigger("door");//запуск анимации персонажа
-            Destroy(doorTarget.gameObject);
+            this.GetComponent<Rigidbody>().isKinematic = true; //включение isKinematic, чтобы персонаж не проваливался
+            transform.rotation = doorTarget.rotation; //поворот для правильной анимации
+            doorAnimator.SetTrigger("door"); //запуск анимации двери
+            anim.SetTrigger("door"); //запуск анимации персонажа
+            Destroy(doorTarget.gameObject); //уничтожение точки анимации'
+            Right_hand.forCrate = true;
         }
-
-        if (other.gameObject.name == "Point (1)" && Input.GetKeyDown(KeyCode.R))
+        else if (other.gameObject.name == "Point (1)" && Input.GetKeyDown(KeyCode.R))
         {
             this.GetComponent<Rigidbody>().isKinematic = true;
             transform.rotation = cabinetTarget.rotation;
             if (!isOpened)
             {
-                cabinetAnimator1.SetTrigger("open");//запуск анимации двери
-                cabinetAnimator2.SetTrigger("open");//запуск анимации двери
-                anim.SetTrigger("open");//запуск анимации персонажа
+                AnimateCabinet("open");
                 isOpened = true;
             }
             else
             {
-                cabinetAnimator1.SetTrigger("close");//запуск анимации двери
-                cabinetAnimator2.SetTrigger("close");//запуск анимации двери
-                anim.SetTrigger("close");//запуск анимации персонажа
+                AnimateCabinet("close");
                 isOpened = false;
             }
 
         }
     }
 
+    private void AnimateCabinet(string trigger) //анимация шкафа
+    {
+        cabinetAnimator1.SetTrigger(trigger);
+        cabinetAnimator2.SetTrigger(trigger);
+        anim.SetTrigger(trigger);
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        this.GetComponent<Rigidbody>().isKinematic = false;
+        this.GetComponent<Rigidbody>().isKinematic = false; //отключение isKinematic
+    }
+
+    public static void CanOpen()
+    {
+        canOpen = true;
     }
 }

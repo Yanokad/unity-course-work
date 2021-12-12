@@ -12,6 +12,12 @@ public class SceneChanger : MonoBehaviour
         StartCoroutine(AsyncLoad(index)); // запускаем асинхронную загрузку сцены
     }
 
+    public void OpenNextScene() // метод для смены сцены
+    {
+        int index = 2; // меняем индекс с 0 на 1 или с 1 на 0
+        StartCoroutine(AsyncLoad(index)); // запускаем асинхронную загрузку сцены
+    }
+
     private IEnumerator AsyncLoad(int index)
     {
         AsyncOperation ready = null;
