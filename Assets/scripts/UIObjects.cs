@@ -35,9 +35,7 @@ public class UIObjects : MonoBehaviour
         }
         else // если объект еще не подобран
         {
-            imagePlace.sprite = null; // не отображать картинку
             borderplace.sprite = red; // сделать обводку красной
         }
     }
-
 }

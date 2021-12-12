@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Messenger : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class Messenger : MonoBehaviour
 
     private void Start()
     {
-        MainManager.Messenger.WriteMessage("Найдите еду");
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            MainManager.Messenger.WriteMessage("Найдите еду");
+        else MainManager.Messenger.WriteMessage("Найдите удочку. Осторожно! Не приближайтесь к монстру!");
     }
 
     public void WriteMessage(string text) // метод для запуска корутины с выводом сообщения

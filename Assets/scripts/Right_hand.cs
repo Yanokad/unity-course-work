@@ -8,15 +8,14 @@ public class Right_hand : MonoBehaviour
     private Transform inHand; // объект для взаимодействия
     public Transform RightHand;
     public Transform wearPos;
+    public Transform prefab;
 
+    public static bool isLeft;
     private bool hasCrate;
-    private bool isWeared;
     public static bool forCrate;
 
     [SerializeField]
     private IKAnimation playerIK; // ссылка на экземпляр скрипта IKAnimation
-    private bot bot;
-
     private TaskManager taskManager;
 
     // Start is called before the first frame update
@@ -24,19 +23,17 @@ public class Right_hand : MonoBehaviour
     {
         hasCrate = false;
         forCrate = true;
-        isWeared = false;
-        bot = new bot();
+        isLeft = false;
 
         taskManager = new TaskManager();
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             ThroughItem();
             hasCrate = false;
-            isWeared = false;
         }
     }
 
@@ -44,15 +41,26 @@ public class Right_hand : MonoBehaviour
     {
         if (inHand != null) // если персонаж держит объект
         {
-            inHand.localPosition = new Vector3(0f, 0f, 0f);
-            inHand.parent = null; // отвязываем объект
-            if (!inHand.gameObject.GetComponent<Rigidbody>())
-                inHand.gameObject.AddComponent<Rigidbody>();
-            inHand.GetComponent<Rigidbody>().useGravity = true;
-            inHand.GetComponent<Rigidbody>().isKinematic = false;
-            StartCoroutine(ReadyToTake()); // запускаем корутину
-            playerIK.StopCarry(); // oстанавливаем IK-анимацию
-            inHand.gameObject.tag = "itemToCarry";
+            if (inHand.gameObject.CompareTag("itemToCarry"))
+            {
+                inHand.localPosition = new Vector3(0f, 0f, 0f);
+                inHand.parent = null; // отвязываем объект
+                if (!inHand.gameObject.GetComponent<Rigidbody>())
+                    inHand.gameObject.AddComponent<Rigidbody>();
+                inHand.GetComponent<Rigidbody>().useGravity = true;
+                inHand.GetComponent<Rigidbody>().isKinematic = false;
+                StartCoroutine(ReadyToTake()); // запускаем корутину
+                playerIK.StopCarry(); // oстанавливаем IK-анимацию
+                inHand.gameObject.tag = "itemToCarry";
+            }
+            else
+            {
+                playerIK.StopCarry(); // oстанавливаем IK-анимацию
+                Destroy(inHand.gameObject);
+                Instantiate(prefab, new Vector3(-41.99f, 20.697f, -42.627f), Quaternion.identity);
+                inHand = null;
+                isLeft = true;
+            }
         }
     }
 
@@ -65,13 +73,23 @@ public class Right_hand : MonoBehaviour
     private void OnTriggerEnter(Collider other) // рука попадает в триггер
     {
         // если у триггера один из этих тегов
-        if (other.CompareTag("item") || other.CompareTag("itemToCarry"))
+        if (other.CompareTag("item") || other.CompareTag("itemToCarry") || other.CompareTag("rod"))
         {
             interactObject = other.transform; // записываем объект для взаимодействия
             playerIK.StartInteraction(other.gameObject.transform.position); // сообщаем скрипту
-            if (other.gameObject.name == "записка" || other.CompareTag("itemToCarry"))
+            if (other.gameObject.name == "записка" || other.CompareTag("itemToCarry") || other.CompareTag("rod"))
                 MainManager.Messenger.WriteMessage("Чтобы подобрать, нажмите Е");
             //IKAnimation о начале взаимодействия для запуска IK - анимации
+        }
+        if (other.CompareTag("crates"))
+        {
+            if (inHand != null)
+                MainManager.Messenger.WriteMessage("Нажмите Q, чтобы оставить");
+            else if (isLeft)
+            {
+                MainManager.Messenger.WriteMessage("Нажмите F, чтобы сделать приманку");
+                Catcher.isReady = true;
+            }
         }
     }
 
@@ -99,7 +117,7 @@ public class Right_hand : MonoBehaviour
         }
 
         // если это объект для перемещения и в руке нет другого предмета
-        else if (collision.gameObject.CompareTag("itemToCarry") && !inHand)
+        else if (collision.gameObject.CompareTag("itemToCarry") || collision.gameObject.CompareTag("rod") && !inHand)
         {
             TakeItemInHand(collision.gameObject.transform);
         }
@@ -110,14 +128,26 @@ public class Right_hand : MonoBehaviour
     {
         inHand = item; // запоминаем объект для взаимодействия
         inHand.parent = transform; // делаем руку, родителем объекта
-        inHand.localPosition = new Vector3(-0.1104f, 0.1989f, -0.1682f);
-        inHand.localEulerAngles = new Vector3(-30.594f, -3.16f, 67.719f);
+        if (item.CompareTag("itemToCarry"))
+        {
+            inHand.localPosition = new Vector3(-0.1104f, 0.1989f, -0.1682f);
+            inHand.localEulerAngles = new Vector3(-30.594f, -3.16f, 67.719f);
+        }
+        else
+        {
+            inHand.localPosition = new Vector3(-0.086f, -0.312f, -0.372f);
+            inHand.localEulerAngles = new Vector3(-15.868f, 73.205f, 46.842f);
+            GameObject.Find("CarryPos").transform.localPosition = new Vector3(0.092f, 1.002f, 0.188f);
+            GameObject.Find("CarryPos").transform.localPosition = new Vector3(-0.01f, 1.136f, 0.27f);
+        }
         playerIK.StopInteraction(); // останавливаем IK-анимацию
         playerIK.Carry(); // устанавливаем IK-анимацию
         hasCrate = true;
         inHand.gameObject.tag = "Untagged";
-        bot.MakeDone();
-        MainManager.Messenger.WriteMessage("Вы подобрали " + item.name);
+        // bot.MakeDone();
+        if (item.CompareTag("itemToCarry"))
+            MainManager.Messenger.WriteMessage("Соберите журавликов");
+        else MainManager.Messenger.WriteMessage("Отнесите к ящикам");
         if (inHand.gameObject.GetComponent<Rigidbody>())
         {
             inHand.GetComponent<Rigidbody>().isKinematic = true;
@@ -135,7 +165,7 @@ public class Right_hand : MonoBehaviour
                 Destroy(item); // удалить объект
                 if (GameObject.Find("cranes").transform.childCount == 1)
                 {
-                    MainManager.Messenger.WriteMessage("Уберите ящик (Е) и подойдите к окну");
+                    MainManager.Messenger.WriteMessage("Уберите ящик (Q) и подойдите к окну");
                     WindowScript.isDone = true;
                 }
              }

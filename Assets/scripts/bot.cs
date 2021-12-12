@@ -13,7 +13,7 @@ public class bot : MonoBehaviour
     private GameObject player;
     private float weight;
 
-    private bool isDone;
+    private static bool isDone;
     public GameObject destination;
 
     private enum states
@@ -120,7 +120,7 @@ public class bot : MonoBehaviour
         state = states.going; // указываем, что бот находится в движении 
     }
 
-    public void MakeDone()
+    public static void MakeDone()
     {
         isDone = true;
     }
