@@ -16,6 +16,10 @@ public class Catcher : MonoBehaviour
     {
         isReady = false;
         isDone = false;
+        MainManager.Inventory.AddItem(GameObject.Find("MatchesObj"));
+        MainManager.Inventory.AddItem(GameObject.Find("BellObj"));
+        MainManager.Inventory.AddItem(GameObject.Find("KeyObj"));
+        MainManager.Inventory.AddItem(GameObject.Find("NoteObj"));
     }
 
     // Update is called once per frame
@@ -32,7 +36,8 @@ public class Catcher : MonoBehaviour
             {
                 Instantiate(bellprefab, new Vector3(-41.9932f, 22.147f, -42.94f), Quaternion.identity);
                 fire = Instantiate(fireprefab, new Vector3(-41.363f, 22.049f, -42.685f), Quaternion.identity);
-
+                MainManager.Inventory.RemoveItem(GameObject.Find("BellObj"));
+                MainManager.Inventory.RemoveItem(GameObject.Find("MatchesObj"));
                 MainManager.Messenger.WriteMessage("Бегите! Не дайте другим монстрам себя поймать");
                 isReady = false;
                 isDone = true;

@@ -50,6 +50,25 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void RemoveItem(GameObject objectInScene)
+    {
+        foreach (UIObjects obj in objects) // обходим массив UI объектов
+        {
+            if (objectInScene.Equals(obj.objectInScene))
+            // если имя подобранного объекта совпадаем с именем одного из объектов в массиве
+            {
+                obj.State = false; // отмечаем объект в массиве как активный (подобранный)
+                break; // выходим из цикла, если нашли подходящий объект
+            }
+        }
+
+        // если после добавления элемента инвентарь был открыт - обновляем его
+        if (Inventory.activeSelf)
+        {
+            UpdateUI();
+        }
+    }
+
     private void UpdateUI() // метод обновления инвентаря
     {
         foreach (UIObjects obj in objects) // обходим массив объектов

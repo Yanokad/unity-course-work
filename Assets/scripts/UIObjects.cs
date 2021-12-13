@@ -11,6 +11,8 @@ public class UIObjects : MonoBehaviour
     private Image imagePlace; // место для картинки
     [SerializeField]
     public Sprite image; // картинка
+    [SerializeField]
+    public Sprite bgImage; // картинка
     private Image borderplace; // место для обводки
                                // ссылки на текстуры для обводки
     [SerializeField]
@@ -35,6 +37,7 @@ public class UIObjects : MonoBehaviour
         }
         else // если объект еще не подобран
         {
+            imagePlace.sprite = bgImage;
             borderplace.sprite = red; // сделать обводку красной
         }
     }

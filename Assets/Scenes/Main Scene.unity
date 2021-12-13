@@ -2758,6 +2758,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e7517b2456dea2442be19ef038bd832e, type: 3}
     - target: {fileID: 5870381016659271466, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
+      propertyPath: bgImage
+      value: 
+      objectReference: {fileID: 21300000, guid: edbee15d179dfe94e9119ca9dc8a0c16, type: 3}
+    - target: {fileID: 5870381016659271466, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
       propertyPath: objectInScene
       value: 
       objectReference: {fileID: 670366233}
@@ -2771,6 +2775,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5870381017151773307, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
       propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: edbee15d179dfe94e9119ca9dc8a0c16, type: 3}
+    - target: {fileID: 5870381017355659987, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
+      propertyPath: bgImage
       value: 
       objectReference: {fileID: 21300000, guid: edbee15d179dfe94e9119ca9dc8a0c16, type: 3}
     - target: {fileID: 5870381017355659987, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
@@ -2790,6 +2798,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c447dfc23fe59d748b125c345842f30a, type: 3}
     - target: {fileID: 5870381017582294440, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
+      propertyPath: bgImage
+      value: 
+      objectReference: {fileID: 21300000, guid: edbee15d179dfe94e9119ca9dc8a0c16, type: 3}
+    - target: {fileID: 5870381017582294440, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
       propertyPath: objectInScene
       value: 
       objectReference: {fileID: 1229651979}
@@ -2805,6 +2817,10 @@ PrefabInstance:
       propertyPath: image
       value: 
       objectReference: {fileID: 21300000, guid: 57132633d221a6b46b6e3f3c84d89940, type: 3}
+    - target: {fileID: 5870381017871750002, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
+      propertyPath: bgImage
+      value: 
+      objectReference: {fileID: 21300000, guid: edbee15d179dfe94e9119ca9dc8a0c16, type: 3}
     - target: {fileID: 5870381017871750002, guid: 7a4b4c41b1428464cb400e221e3b6684, type: 3}
       propertyPath: objectInScene
       value: 
@@ -3457,20 +3473,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3825095276682717127, guid: 2b585b2802ea3594a8b35db2d97a1839, type: 3}
   m_PrefabInstance: {fileID: 1316845558}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1306278324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306278323}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 678b27a3bcab6fe4880fc237455cb826, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorAnimator: {fileID: 848291607}
-  target: {fileID: 287926677}
 --- !u!114 &1306278331
 MonoBehaviour:
   m_ObjectHideFlags: 0
